@@ -1,0 +1,37 @@
+include mylib.bold.a;
+include another_lib.b;
+
+let main { 
+	let x = 12345;
+	let y = x;
+	let z = 'some "string" here';
+	let section_name = "cooking";
+
+	let a_thing = my_function();
+	thing();
+
+	let b: body {
+		return("
+			\begin{document}
+			<body>
+			\end{document}
+		");
+	}
+
+	let header: body {
+		return("
+			\begin{h1}
+			<body>
+			\end{h1}
+		");
+	}
+
+	return("
+		\bold{I want to thank everyone}
+		<header(
+		)>
+		<body(
+			'Hi there'
+		)>
+	");
+}

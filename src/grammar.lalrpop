@@ -1,0 +1,81 @@
+use std::str::FromStr;
+use crate::ast;
+
+grammar;
+
+Comma<T>: Vec<T> = {
+    <v:(<T> ",")*> <e:T?> => match e {
+        None => v,
+        Some(e) => {
+            let mut v = v;
+            v.push(e);
+            v
+        }
+    }
+};
+
+Semicolon<T>: Vec<T> = {
+    <v:(<T> ";")*> <e:T?> => match e {
+        None => v,
+        Some(e) => {
+            let mut v = v;
+            v.push(e);
+            v
+        }
+    }
+};
+
+pub Root: Vec<ast::Statement> = {
+   Statement* => <>
+}
+
+pub IdentifierStr: String = {
+    r"[a-zA-Z_][a-zA-Z_0-9]*(\.[a-zA-Z_][a-zA-Z_0-9]*)*" => <>.to_owned()
+}
+pub NumberLiteralStr: String = {
+    r"[0-9]+" => <>.to_owned()
+}
+
+pub StringLiteralStr: String = {
+    r#""[^"]*""# => <>.to_owned(),
+    r#"'[^']*'"# => <>.to_owned()
+}
+
+pub Expression: ast::Expression = {
+    Identifier,
+    NumberLiteral,
+    StringLiteral,
+    FunctionCall
+}
+pub Identifier: ast::Expression = {
+    IdentifierStr => ast::Expression::Identifier(<>)
+}
+NumberLiteral: ast::Expression = {
+    NumberLiteralStr => ast::Expression::NumberLiteral(<>)
+}
+pub StringLiteral: ast::Expression = {
+    StringLiteralStr => ast::Expression::StringLiteral(<>)
+}
+pub FunctionCall: ast::Expression = {
+    <f:IdentifierStr> "(" <a:Comma<Expression>> ")" => ast::Expression::FunctionCall(f, a)
+}
+
+pub Statement: ast::Statement = {
+    Include,
+    Section,
+    Assignment,
+    ExprStatement
+}
+pub Include: ast::Statement = {
+    "include" <s:IdentifierStr> ";" => ast::Statement::Include(s)
+}
+pub Section: ast::Statement = {
+    "let" <i:IdentifierStr> "{" <s:Statement*> "}" => ast::Statement::Section(i.to_owned(), vec![], s),
+    "let" <i:IdentifierStr> ":" <p:Comma<IdentifierStr>> "{" <s:Statement*> "}" => ast::Statement::Section(i.to_owned(), p, s),
+}
+pub Assignment: ast::Statement = {
+    "let" <i:IdentifierStr> "=" <e:Expression> ";" => ast::Statement::Assignment(<>)
+}
+pub ExprStatement: ast::Statement = {
+    <e:Expression> ";" => ast::Statement::ExprStatement(<>)
+}
