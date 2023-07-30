@@ -1,11 +1,13 @@
 include mylib.bold.a;
 include another_lib.b;
+include a_text_file;
 
 let main { 
 	let x = 12345;
 	let y = x;
 	let z = 'some "string" here';
 	let section_name = "cooking";
+	let imported_section = a_text_file.imported_section();
 
 	let a_thing = my_function();
 	thing();
@@ -19,11 +21,7 @@ let main {
 	}
 
 	let header: body {
-		return("
-			\begin{h1}
-			<body>
-			\end{h1}
-		");
+		return "<imported_section>
 	}
 
 	return("
