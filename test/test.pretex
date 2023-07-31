@@ -2,34 +2,40 @@ include mylib.bold.a;
 include another_lib.b;
 include a_text_file;
 
-let main { 
-	let x = 12345;
-	let y = x;
-	let z = 'some "string" here';
-	let section_name = "cooking";
-	let imported_section = a_text_file.imported_section();
+let another_section {
+	"Enter"
+}
 
-	let a_thing = my_function();
-	thing();
+let x = 12345;
+let y = x;
+let z = 'some "string" here';
+let section_name = "cooking";
+let imported_section = a_text_file.imported_section();
 
-	let b: body {
-		return("
-			\begin{document}
-			<body>
-			\end{document}
-		");
-	}
+let a_thing = my_function();
+thing();
 
-	let header: body {
-		return "<imported_section>
-	}
-
+let b: body {
 	return("
-		\bold{I want to thank everyone}
-		<header(
-		)>
-		<body(
-			'Hi there'
-		)>
+		\begin{document}
+		<body>
+		\end{document}
 	");
 }
+
+call_thing(abc=bo, def="123");
+
+let header: body {
+	return("<a_thing>");
+}
+
+return("
+	\bold{I want to thank everyone}
+	<header(
+	)>
+	<body(
+		'Hi there'
+	)>
+");
+
+

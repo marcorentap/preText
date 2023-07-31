@@ -4,12 +4,16 @@ pub enum Expression {
     StringLiteral(String),
     Identifier(String),
     BinaryOperation(BinaryOp, Box<Expression>, Box<Expression>),
-    FunctionCall(String, Vec<Expression>),
+    FunctionCall(String, Vec<(String, Expression)>),
 }
 
 #[derive(Debug, Clone)]
 pub enum BinaryOp {
     Add,
+    Sub,
+    Div,
+    Mul,
+    Assign,
 }
 
 #[derive(Debug, Clone)]

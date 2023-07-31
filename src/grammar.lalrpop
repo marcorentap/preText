@@ -45,8 +45,9 @@ pub Expression: ast::Expression = {
     Identifier,
     NumberLiteral,
     StringLiteral,
-    FunctionCall
+    FunctionCall,
 }
+
 pub Identifier: ast::Expression = {
     IdentifierStr => ast::Expression::Identifier(<>)
 }
@@ -57,7 +58,11 @@ pub StringLiteral: ast::Expression = {
     StringLiteralStr => ast::Expression::StringLiteral(<>)
 }
 pub FunctionCall: ast::Expression = {
-    <f:IdentifierStr> "(" <a:Comma<Expression>> ")" => ast::Expression::FunctionCall(f, a)
+    <f:IdentifierStr> "(" <a:Comma<FunctionCallArg>> ")" => ast::Expression::FunctionCall(f, a),
+}
+pub FunctionCallArg: (String, ast::Expression) = {
+    <l:IdentifierStr> "=" <r:Expression> => (l.to_owned(), r),
+    Expression => ("".to_owned(), <>)
 }
 
 pub Statement: ast::Statement = {
@@ -77,5 +82,6 @@ pub Assignment: ast::Statement = {
     "let" <i:IdentifierStr> "=" <e:Expression> ";" => ast::Statement::Assignment(<>)
 }
 pub ExprStatement: ast::Statement = {
-    <e:Expression> ";" => ast::Statement::ExprStatement(<>)
+    <e:Expression> ";" => ast::Statement::ExprStatement(<>),
+    <e:Expression> => ast::Statement::ExprStatement(<>),
 }
