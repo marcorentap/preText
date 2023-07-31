@@ -26,7 +26,7 @@ For pure content files, much of the syntax can be left out:
 
 ```
 // content.ptx
-<abstract()>
+<sections.abstract>
 I solved the world's biggest problem:
 <sections.problem_section(2010, 20, 10, 5)>
 
