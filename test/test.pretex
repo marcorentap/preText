@@ -1,42 +1,6 @@
-include mylib.bold.a;
-include another_lib.b;
-include a_text_file;
-
-let another_section {
-	"Enter"
-}
-
-let x = 12345;
-let y = x++;
-let y = -x;
-let z = 'some "string" here';
-let section_name = "cooking";
-let imported_section = a_text_file.imported_section();
-
-let a_thing = my_function();
-thing();
-
-let b: body {
-	return("
-		\begin{document}
-		<body>
-		\end{document}
-	");
-}
-
-call_thing(abc=bo, def="123");
-
-let header: body {
-	return("<a_thing>");
-}
-
-return("
-	\bold{I want to thank everyone}
-	<header(
-	)>
-	<body(
-		'Hi there'
-	)>
-");
-
-
+let x=y;
+let x=(y);
+let x=1234;
+let x=(1234);
+let x=3 + 2 * 4;
+let x=3 + (2 * 4);

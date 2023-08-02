@@ -1,11 +1,17 @@
 #[derive(Debug, Clone)]
-pub enum Expression {
+pub enum ExpressionBase {
     NumberLiteral(String),
     StringLiteral(String),
     Identifier(String),
+    SubExpression(Box<Expression>),
+}
+
+#[derive(Debug, Clone)]
+pub enum Expression {
     BinaryOperation(BinaryOp, Box<Expression>, Box<Expression>),
     UnaryOperation(UnaryOp, String),
     FunctionCall(String, Vec<(String, Expression)>),
+    ExpressionBase(self::ExpressionBase),
 }
 
 #[derive(Debug, Clone)]
@@ -13,7 +19,7 @@ pub enum BinaryOp {
     Add,
     Sub,
     Div,
-    Mul,
+    Mult,
     Assign,
 }
 
@@ -30,4 +36,5 @@ pub enum Statement {
     Assignment(String, Expression),
     Include(String),
     ExprStatement(Expression),
+    VariableDefinition(String, Expression),
 }
