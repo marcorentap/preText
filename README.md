@@ -26,7 +26,7 @@ For pure content files, much of the syntax can be left out:
 
 ```
 // content.ptx
-<sections.abstract>
+<abstract()>
 I solved the world's biggest problem:
 <sections.problem_section(2010, 20, 10, 5)>
 
@@ -57,4 +57,4 @@ an identifier so abstract.ptx could simply contain
 is introduced."
 ```
 
-Or even without the quotes...
+Or even without the quotes, and treat the whole file as a string literal identified by the filename...
