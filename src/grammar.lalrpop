@@ -49,13 +49,22 @@ pub StringLiteral: ast::ExpressionBase = {
 pub Statement: ast::Statement = {
     ExprStatement,
     VariableDefinition,
+    SectionDefinition,
 }
 pub ExprStatement: ast::Statement = {
     <e:Expression> ";" => ast::Statement::ExprStatement(e)
 }
 pub VariableDefinition: ast::Statement  = {
-    "let" <i:IdentifierStr> "=" <e:Expression> ";" => ast::Statement::VariableDefinition(i, e),
+    "let" <i:Identifier> "=" <e:Expression> ";" => ast::Statement::VariableDefinition(i, e),
 }
+pub SectionDefinition: ast::Statement  = {
+    "let" <i:Identifier> <p:SectionParams> "=" "{" <s:Statement*> "}" => ast::Statement::SectionDefinition(i,Some(p),s),
+    "let" <i:Identifier> "=" "{" <s:Statement*> "}" => ast::Statement::SectionDefinition(i,None,s)
+}
+pub SectionParams: Vec<ast::ExpressionBase> = {
+    ":" <a:Comma<Identifier>> => a
+}
+
 
 
 

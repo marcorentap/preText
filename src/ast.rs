@@ -38,5 +38,6 @@ pub enum Statement {
     Assignment(String, Expression),
     Include(String),
     ExprStatement(Expression),
-    VariableDefinition(String, Expression),
+    VariableDefinition(ExpressionBase, Expression),
+    SectionDefinition(ExpressionBase, Option<Vec<ExpressionBase>>, Vec<Statement>),
 }
