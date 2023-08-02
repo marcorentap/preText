@@ -1,0 +1,13 @@
+let problem_section: start_year, fastforward, adam, sister {
+	let catchphrase = "Being dumb is so <start_year>."
+
+	return("
+		In the year <start_year>, Adam is <adam> years old and his sister is
+		<adam/sister> his age. Therefore, in the year <start_year+fastforward>
+		Adam will be <adam+fastforward> and his sister is <sister+fastforward>. I
+		am <bold('very')> smart. <catchphrase()>
+	");
+}
+
+let abstract = "This problem has been haunting humanity since the dawn of
+civilization. In this paper, a perfect solution is introduced."

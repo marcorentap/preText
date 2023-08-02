@@ -1,0 +1,21 @@
+include abcde.asdas.dsads;
+include abcde.asdas.dsads as abc;
+let x=y;
+let x=(y);
+let x=1234;
+let x=(1234);
+let x=3 + 2 * 4;
+let x=3 + (((y)) * 4);
+let x=3 + (((y)) * "abc" - "def");
+let y = yx++;
+let y = yx--;
+
+
+abc(1,2,a=3, a[4]);
+
+let sec = {
+	abc();
+}
+let sec: arg1, arg2, arg3 = {
+	abc();
+}
