@@ -1,3 +1,5 @@
+include abcde.asdas.dsads;
+include abcde.asdas.dsads as abc;
 let x=y;
 let x=(y);
 let x=1234;

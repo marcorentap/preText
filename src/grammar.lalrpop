@@ -14,6 +14,17 @@ Comma<T>: Vec<T> = {
     }
 }
 
+Dot<T>: Vec<T> = {
+    <v:(<T> ".")*> <e:T?> => match e {
+        None => v,
+        Some(e) => {
+            let mut v = v;
+            v.push(e);
+            v
+        }
+    }
+}
+
 pub Root: Vec<ast::Statement> = {
    Statement* => <>
 }
@@ -50,6 +61,7 @@ pub Statement: ast::Statement = {
     ExprStatement,
     VariableDefinition,
     SectionDefinition,
+    IncludeStatement,
 }
 pub ExprStatement: ast::Statement = {
     <e:Expression> ";" => ast::Statement::ExprStatement(e)
@@ -63,6 +75,10 @@ pub SectionDefinition: ast::Statement  = {
 }
 pub SectionParams: Vec<ast::ExpressionBase> = {
     ":" <a:Comma<Identifier>> => a
+}
+pub IncludeStatement: ast::Statement = {
+    "include" <i:Dot<Identifier>> ";" => ast::Statement::Include(i, None),
+    "include" <i:Dot<Identifier>> "as" <a:Identifier> ";" => ast::Statement::Include(i, Some(a)),
 }
 
 

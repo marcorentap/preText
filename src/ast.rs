@@ -36,7 +36,7 @@ pub enum PostfixOp {
 pub enum Statement {
     Section(String, Vec<String>, Vec<Statement>),
     Assignment(String, Expression),
-    Include(String),
+    Include(Vec<ExpressionBase>, Option<ExpressionBase>),
     ExprStatement(Expression),
     VariableDefinition(ExpressionBase, Expression),
     SectionDefinition(ExpressionBase, Option<Vec<ExpressionBase>>, Vec<Statement>),
