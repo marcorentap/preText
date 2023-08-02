@@ -22,6 +22,8 @@ pub enum BinaryOp {
     Div,
     Mult,
     Assign,
+    Equals,
+    NotEquals,
 }
 
 #[derive(Debug, Clone)]
@@ -40,4 +42,5 @@ pub enum Statement {
     ExprStatement(Expression),
     VariableDefinition(ExpressionBase, Expression),
     SectionDefinition(ExpressionBase, Option<Vec<ExpressionBase>>, Vec<Statement>),
+    Conditional(Expression, Vec<Statement>, Option<Vec<Statement>>),
 }

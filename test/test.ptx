@@ -19,3 +19,17 @@ let sec = {
 let sec: arg1, arg2, arg3 = {
 	abc();
 }
+
+if (x) {
+	do_sometihng();
+} else {
+	do_something_else();
+}
+
+if (y==3) {
+	do_sometihng();
+}
+
+if (y!=3) {
+	do_sometihng();
+}
