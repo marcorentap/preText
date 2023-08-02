@@ -46,6 +46,13 @@ pub Expression: ast::Expression = {
     NumberLiteral,
     StringLiteral,
     FunctionCall,
+    UnaryOperation,
+}
+
+pub UnaryOperation: ast::Expression = {
+    <i:IdentifierStr> "++" => ast::Expression::UnaryOperation(ast::UnaryOp::Increment, i.to_owned()),
+    <i:IdentifierStr> "--" => ast::Expression::UnaryOperation(ast::UnaryOp::Decrement, i.to_owned()),
+    "-"<i:IdentifierStr> => ast::Expression::UnaryOperation(ast::UnaryOp::Negate, i.to_owned()),
 }
 
 pub Identifier: ast::Expression = {

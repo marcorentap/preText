@@ -7,7 +7,8 @@ let another_section {
 }
 
 let x = 12345;
-let y = x;
+let y = x++;
+let y = -x;
 let z = 'some "string" here';
 let section_name = "cooking";
 let imported_section = a_text_file.imported_section();

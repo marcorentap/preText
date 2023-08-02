@@ -4,6 +4,7 @@ pub enum Expression {
     StringLiteral(String),
     Identifier(String),
     BinaryOperation(BinaryOp, Box<Expression>, Box<Expression>),
+    UnaryOperation(UnaryOp, String),
     FunctionCall(String, Vec<(String, Expression)>),
 }
 
@@ -14,6 +15,13 @@ pub enum BinaryOp {
     Div,
     Mul,
     Assign,
+}
+
+#[derive(Debug, Clone)]
+pub enum UnaryOp {
+    Increment,
+    Decrement,
+    Negate,
 }
 
 #[derive(Debug, Clone)]
