@@ -9,8 +9,9 @@ pub enum ExpressionBase {
 #[derive(Debug, Clone)]
 pub enum Expression {
     BinaryOperation(BinaryOp, Box<Expression>, Box<Expression>),
-    UnaryOperation(UnaryOp, String),
-    FunctionCall(String, Vec<(String, Expression)>),
+    PostfixOperation(PostfixOp, self::ExpressionBase),
+    FunctionCall(self::ExpressionBase, Vec<Expression>),
+    VarIndexing(self::ExpressionBase, Box<Expression>),
     ExpressionBase(self::ExpressionBase),
 }
 
@@ -24,10 +25,11 @@ pub enum BinaryOp {
 }
 
 #[derive(Debug, Clone)]
-pub enum UnaryOp {
-    Increment,
-    Decrement,
-    Negate,
+pub enum PostfixOp {
+    Incr,
+    Decr,
+    Call,
+    Index,
 }
 
 #[derive(Debug, Clone)]

@@ -12,7 +12,7 @@ Comma<T>: Vec<T> = {
             v
         }
     }
-};
+}
 
 pub Root: Vec<ast::Statement> = {
    Statement* => <>
@@ -35,8 +35,11 @@ pub StringLiteralStr: String = {
 pub Identifier: ast::ExpressionBase = {
     IdentifierStr => ast::ExpressionBase::Identifier(<>)
 }
-pub Number: ast::ExpressionBase = {
+pub NumberLiteral: ast::ExpressionBase = {
     NumberLiteralStr => ast::ExpressionBase::NumberLiteral(<>)
+}
+pub StringLiteral: ast::ExpressionBase = {
+    StringLiteralStr => ast::ExpressionBase::StringLiteral(<>)
 }
 
 
@@ -48,7 +51,7 @@ pub Statement: ast::Statement = {
     VariableDefinition,
 }
 pub ExprStatement: ast::Statement = {
-    Expression => ast::Statement::ExprStatement(<>)
+    <e:Expression> ";" => ast::Statement::ExprStatement(e)
 }
 pub VariableDefinition: ast::Statement  = {
     "let" <i:IdentifierStr> "=" <e:Expression> ";" => ast::Statement::VariableDefinition(i, e),
@@ -58,22 +61,35 @@ pub VariableDefinition: ast::Statement  = {
 
 
 // Expressions
-pub Expression: ast::Expression = {
-    AdditiveOperation
-}
 pub ExpressionBase: ast::ExpressionBase = {
     Identifier,
-    Number,
+    NumberLiteral,
+    StringLiteral,
     "(" <e:Expression> ")" => ast::ExpressionBase::SubExpression(Box::new(e))
 }
-AdditiveOperation: ast::Expression = {
+pub Expression: ast::Expression = {
+    AssignmentOperation
+}
+pub AssignmentOperation: ast::Expression = {
+    <e1:AssignmentOperation> "=" <e2:AdditiveOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::Assign, Box::new(e1), Box::new(e2)),
+    AdditiveOperation
+}
+pub AdditiveOperation: ast::Expression = {
     <e1:AdditiveOperation> "+" <e2:MultiplicativeOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::Add, Box::new(e1), Box::new(e2)),
     <e1:AdditiveOperation> "-" <e2:MultiplicativeOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::Sub, Box::new(e1), Box::new(e2)),
     MultiplicativeOperation
 }
 
 pub MultiplicativeOperation: ast::Expression = {
-    <e1:MultiplicativeOperation> "*" <e2:ExpressionBase> => ast::Expression::BinaryOperation(ast::BinaryOp::Mult, Box::new(e1), Box::new(ast::Expression::ExpressionBase(e2))),
-    <e1:MultiplicativeOperation> "/" <e2:ExpressionBase> => ast::Expression::BinaryOperation(ast::BinaryOp::Div, Box::new(e1), Box::new(ast::Expression::ExpressionBase(e2))),
+    <e1:MultiplicativeOperation> "*" <e2:PostfixOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::Mult, Box::new(e1), Box::new(e2)),
+    <e1:MultiplicativeOperation> "/" <e2:PostfixOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::Div, Box::new(e1), Box::new(e2)),
+    PostfixOperation
+}
+
+pub PostfixOperation: ast::Expression = {
+    <i:Identifier> "(" <a:Comma<Expression>> ")" => ast::Expression::FunctionCall(i, a),
+    <i:Identifier> "[" <e:Expression> "]" => ast::Expression::VarIndexing(i, Box::new(e)),
+    <i:Identifier> "++" => ast::Expression::PostfixOperation(ast::PostfixOp::Incr, i),
+    <i:Identifier> "--" => ast::Expression::PostfixOperation(ast::PostfixOp::Decr, i),
     ExpressionBase => ast::Expression::ExpressionBase(<>),
 }
