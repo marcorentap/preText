@@ -26,7 +26,7 @@ Dot<T>: Vec<T> = {
 }
 
 pub Root: Vec<ast::Statement> = {
-   Statement* => <>
+    Statement* => <>,
 }
 
 pub IdentifierStr: String = {
@@ -58,6 +58,7 @@ pub StringLiteral: ast::ExpressionBase = {
 
 // Statements
 pub Statement: ast::Statement = {
+    StringLiteral => ast::Statement::ExprStatement(ast::Expression::ExpressionBase(<>)),
     ExprStatement,
     VariableDefinition,
     SectionDefinition,
@@ -65,7 +66,7 @@ pub Statement: ast::Statement = {
     ConditionalStatement
 }
 pub ExprStatement: ast::Statement = {
-    <e:Expression> ";" => ast::Statement::ExprStatement(e)
+    <e:Expression> ";" => ast::Statement::ExprStatement(e),
 }
 pub VariableDefinition: ast::Statement  = {
     "let" <i:Identifier> "=" <e:Expression> ";" => ast::Statement::VariableDefinition(i, e),
@@ -95,7 +96,8 @@ pub ExpressionBase: ast::ExpressionBase = {
     Identifier,
     NumberLiteral,
     StringLiteral,
-    "(" <e:Expression> ")" => ast::ExpressionBase::SubExpression(Box::new(e))
+    "(" <e:Expression> ")" => ast::ExpressionBase::SubExpression(Box::new(e)),
+    "[" <e:Comma<Expression>> "]" => ast::ExpressionBase::Array(e),
 }
 pub Expression: ast::Expression = {
     AssignmentOperation
@@ -111,7 +113,9 @@ pub ComparisonOperation: ast::Expression = {
 }
 pub AdditiveOperation: ast::Expression = {
     <e1:AdditiveOperation> "+" <e2:MultiplicativeOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::Add, Box::new(e1), Box::new(e2)),
+    <e1:AdditiveOperation> "+=" <e2:MultiplicativeOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::AddAssign, Box::new(e1), Box::new(e2)),
     <e1:AdditiveOperation> "-" <e2:MultiplicativeOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::Sub, Box::new(e1), Box::new(e2)),
+    <e1:AdditiveOperation> "-=" <e2:MultiplicativeOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::SubAssign, Box::new(e1), Box::new(e2)),
     MultiplicativeOperation
 }
 

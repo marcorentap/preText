@@ -4,6 +4,7 @@ pub enum ExpressionBase {
     StringLiteral(String),
     Identifier(String),
     SubExpression(Box<Expression>),
+    Array(Vec<Expression>),
 }
 
 #[derive(Debug, Clone)]
@@ -21,6 +22,8 @@ pub enum BinaryOp {
     Sub,
     Div,
     Mult,
+    AddAssign,
+    SubAssign,
     Assign,
     Equals,
     NotEquals,

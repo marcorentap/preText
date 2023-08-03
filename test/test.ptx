@@ -1,35 +1,41 @@
-include abcde.asdas.dsads;
-include abcde.asdas.dsads as abc;
-let x=y;
-let x=(y);
-let x=1234;
-let x=(1234);
-let x=3 + 2 * 4;
-let x=3 + (((y)) * 4);
-let x=3 + (((y)) * "abc" - "def");
-let y = yx++;
-let y = yx--;
+include std.format as fmt;
 
-
-abc(1,2,a=3, a[4]);
-
-let sec = {
-	abc();
-}
-let sec: arg1, arg2, arg3 = {
-	abc();
+let special_paragraph = {
+	"This section is the special 2010 version"
 }
 
-if (x) {
-	do_sometihng();
-} else {
-	do_something_else();
+let default_paragraph: year = {
+	"The year <year> isn't so special. We'll use the default section"
 }
 
-if (y==3) {
-	do_sometihng();
+let heading: title = {
+	"<fmt.bold('MIND, BLOWN!')> <title>"
 }
 
-if (y!=3) {
-	do_sometihng();
+let section: year = {
+	if (year == 2010) {
+		let paragraph = special_paragraph;
+	} else {
+		let paragraph = default_paragraph(year);
+	}
+
+	let boring = [year, year + 3, year + 7];
+
+	return("
+		<heading('FORTRAN means Formula Translation')>
+
+		Fortran is one of the earlier high-level programming language, created at a time when
+		most programmers were using different assembly languages to program their machines.
+
+		<paragraph>
+
+		Years <boring[0]>, <boring[1]> and <boring[2]> aren't very cool
+	");
 }
+
+let normal_section = section(2011);
+let special_section = section(year=2010);
+
+return("
+	In our article, the normal section is <normal_section> and special section is <special_section>
+");
