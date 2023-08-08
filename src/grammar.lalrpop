@@ -131,6 +131,11 @@ pub MultiplicativeOperation: ast::Expression = {
     <e1:MultiplicativeOperation> "*=" <e2:PrefixOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::MultAssign, Box::new(e1), Box::new(e2)),
     <e1:MultiplicativeOperation> "/" <e2:PrefixOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::Div, Box::new(e1), Box::new(e2)),
     <e1:MultiplicativeOperation> "/=" <e2:PrefixOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::DivAssign, Box::new(e1), Box::new(e2)),
+    <e1:MultiplicativeOperation> "&" <e2:PrefixOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::BitwiseAnd, Box::new(e1), Box::new(e2)),
+    <e1:MultiplicativeOperation> "|" <e2:PrefixOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::BitwiseOr, Box::new(e1), Box::new(e2)),
+    <e1:MultiplicativeOperation> "^" <e2:PrefixOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::BitwiseXor, Box::new(e1), Box::new(e2)),
+    <e1:MultiplicativeOperation> "&&" <e2:PrefixOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::And, Box::new(e1), Box::new(e2)),
+    <e1:MultiplicativeOperation> "||" <e2:PrefixOperation> => ast::Expression::BinaryOperation(ast::BinaryOp::Or, Box::new(e1), Box::new(e2)),
     PrefixOperation
 }
 

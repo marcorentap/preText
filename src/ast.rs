@@ -30,6 +30,11 @@ pub enum BinaryOp {
     Assign,
     Equals,
     NotEquals,
+    BitwiseAnd,
+    BitwiseOr,
+    BitwiseXor,
+    And,
+    Or,
 }
 
 #[derive(Debug, Clone)]
