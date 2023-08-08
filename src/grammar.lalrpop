@@ -27,6 +27,7 @@ Dot<T>: Vec<T> = {
 
 pub Root: Vec<ast::Statement> = {
     Statement* => <>,
+    ExpressionBase => vec![ast::Statement::ExprStatement(ast::Expression::ExpressionBase(<>))],
 }
 
 pub IdentifierStr: String = {
