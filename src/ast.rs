@@ -51,6 +51,8 @@ pub enum PrefixOp {
 pub enum Statement {
     Assignment(String, Expression),
     Include(Vec<ExpressionBase>, Option<ExpressionBase>),
+    FileInclude(ExpressionBase, Option<ExpressionBase>),
+    FilePartialInclude(ExpressionBase, Vec<ExpressionBase>, Option<ExpressionBase>),
     ExprStatement(Expression),
     VariableDefinition(ExpressionBase, Expression),
     SectionDefinition(ExpressionBase, Option<Vec<ExpressionBase>>, Vec<Statement>),

@@ -1,0 +1,4 @@
+include "import2.ptx";
+include "import2.ptx" as thing;
+include section1 from "import2.ptx" as sec1;
+include section2 from "import2.ptx";

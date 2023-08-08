@@ -84,6 +84,11 @@ pub SectionParams: Vec<ast::ExpressionBase> = {
 pub IncludeStatement: ast::Statement = {
     "include" <i:Dot<Identifier>> ";" => ast::Statement::Include(i, None),
     "include" <i:Dot<Identifier>> "as" <a:Identifier> ";" => ast::Statement::Include(i, Some(a)),
+    "include" <f:StringLiteral> ";" => ast::Statement::FileInclude(f, None),
+    "include" <f:StringLiteral> "as" <a:Identifier> ";" => ast::Statement::FileInclude(f, Some(a)),
+
+    "include" <i:Dot<Identifier>> "from" <f:StringLiteral> ";" => ast::Statement::FilePartialInclude(f, i, None),
+    "include" <i:Dot<Identifier>> "from" <f:StringLiteral> "as" <a:Identifier> ";" => ast::Statement::FilePartialInclude(f, i, Some(a)),
 }
 pub ConditionalStatement: ast::Statement = {
     "if" "("<c:Expression>")" "{"<s:Statement*>"}" => ast::Statement::Conditional(c, s, None),
