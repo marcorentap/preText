@@ -22,7 +22,7 @@ let abstract = "This problem has been haunting humanity since the dawn of
   civilization. In this paper, a perfect solution is introduced."
 ```
 
-For pure content files, much of the syntax can be left out:
+For pure content files, much of the syntax can be left out since it is treated as a simple section identified by the filename:
 
 ```
 // content.ptx
@@ -33,28 +33,27 @@ I solved the world's biggest problem:
 Proof left as an exercise to the reader
 ```
 
+would be equivalent to
+
+```
+let content = {
+  "<abstract()>
+  I solved the world's biggest problem:
+  <sections.problem_section(2010, 20, 10, 5)>
+
+  Proof left as an exercise to the reader"
+}
+```
+
 A main file glues it all together:
 
 ```
 // main.ptx
 import std.template.latex_article;
-import "sections.ptx" as sections;
-import "content.ptx" as content;
+import "sections.ptx";
+import "content.ptx";
 
 latex_article(title="I am very smart (2010)", author="Mathematical Genius", body=content);
 ```
 
 As you might have noticed, this idea can be applied to break any text files into modules, not just LaTeX.
-
----
-
-I'm still figuring out the right syntax so that simple content-only files will
-have barely any extra characters. Perhaps an approach is to use the file name as
-an identifier so abstract.ptx could simply contain
-
-```
-"This problem has been haunting humanity since the dawn of civilization. In this paper, a perfect solution
-is introduced."
-```
-
-Or even without the quotes, and treat the whole file as a string literal identified by the filename...
