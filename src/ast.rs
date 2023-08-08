@@ -11,6 +11,7 @@ pub enum ExpressionBase {
 pub enum Expression {
     BinaryOperation(BinaryOp, Box<Expression>, Box<Expression>),
     PostfixOperation(PostfixOp, self::ExpressionBase),
+    PrefixOperation(PrefixOp, Box<self::Expression>),
     FunctionCall(self::ExpressionBase, Vec<Expression>),
     VarIndexing(self::ExpressionBase, Box<Expression>),
     ExpressionBase(self::ExpressionBase),
@@ -20,10 +21,12 @@ pub enum Expression {
 pub enum BinaryOp {
     Add,
     Sub,
-    Div,
     Mult,
+    Div,
     AddAssign,
     SubAssign,
+    MultAssign,
+    DivAssign,
     Assign,
     Equals,
     NotEquals,
@@ -38,12 +41,19 @@ pub enum PostfixOp {
 }
 
 #[derive(Debug, Clone)]
+pub enum PrefixOp {
+    Negative,
+    Positive,
+    Not,
+}
+
+#[derive(Debug, Clone)]
 pub enum Statement {
-    Section(String, Vec<String>, Vec<Statement>),
     Assignment(String, Expression),
     Include(Vec<ExpressionBase>, Option<ExpressionBase>),
     ExprStatement(Expression),
     VariableDefinition(ExpressionBase, Expression),
     SectionDefinition(ExpressionBase, Option<Vec<ExpressionBase>>, Vec<Statement>),
+    SimpleSectionDefinition(ExpressionBase, Option<Vec<ExpressionBase>>, Expression),
     Conditional(Expression, Vec<Statement>, Option<Vec<Statement>>),
 }

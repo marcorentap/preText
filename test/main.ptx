@@ -19,3 +19,8 @@ let sec = {
 let sec: arg1, arg2, arg3 = {
 	abc();
 }
+
+if (abc!=123) {}
+let abc = 123;
+let abc = 1234;
+let abc = !1234;

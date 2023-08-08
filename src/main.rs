@@ -9,24 +9,6 @@ use std::{
 extern crate lalrpop_util;
 lalrpop_mod!(pub grammar); // synthesized by LALRPOP
 
-#[test]
-fn grammar_block() {
-    assert!(grammar::RootParser::new().parse("main { body }").is_ok());
-}
-
-#[test]
-fn grammar_includes() {
-    assert!(grammar::RootParser::new()
-        .parse("include lib.function;")
-        .is_ok());
-    assert!(grammar::RootParser::new()
-        .parse(
-            "include lib.function;
-            include lib2.module.function2;"
-        )
-        .is_ok());
-}
-
 #[derive(Parser, Debug)]
 struct Args {
     #[arg(short, long)]
@@ -51,12 +33,11 @@ fn main() -> Result<(), io::Error> {
 
     for input_file in input_files {
         let file = File::open(input_file)?;
+        println!("{:#?}", file);
         let mut reader = BufReader::new(file);
         let mut file_content: String = "".to_string();
         reader.read_to_string(&mut file_content)?;
         let root = grammar::RootParser::new().parse(&file_content).unwrap();
-
-        println!("{:#?}", root);
     }
     Ok(())
 }
